@@ -39,12 +39,12 @@ func NewManager[T comparable](opts ...ManagerOption) (*Manager[T], error) {
 	}, nil
 }
 
-// GetOrConnect returns an RPC connection that is cached or established if not
-// exist.
+// GetOrConnect returns an RPC connection that is cached or established if not exist.
 func (m *Manager[T]) GetOrConnect(ctx context.Context, id T, addr string, grpcDialOptions ...grpc.DialOption) (*Conn, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
+	// check target of the connection
 	conn, ok := m.conns[id]
 	if ok {
 		if conn.addr != addr {
@@ -75,6 +75,7 @@ func (m *Manager[T]) CloseClient(id T) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
+	// check if the target connection is closed already
 	conn, ok := m.conns[id]
 	if !ok {
 		return nil
