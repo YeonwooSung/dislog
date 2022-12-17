@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/test/bufconn"
 )
 
 type RpcServer struct {
@@ -14,7 +15,21 @@ type RpcServer struct {
 	wg         sync.WaitGroup
 }
 
-func NewRpcServer(serverAddr string) (*RpcServer, error) {
+func NewRpcServer(serverAddr string, bufsize int, gRpcServerOptions grpc.ServerOption) (*RpcServer, error) {
+	sz := 1 << 10
+	if bufsize > 0 {
+		sz = bufsize
+	}
+	lis := bufconn.Listen(sz)
+	rpcServer := &RpcServer{
+		listener:   lis,
+		grpcServer: grpc.NewServer(gRpcServerOptions),
+		address:    lis.Addr().String(),
+	}
+	return rpcServer, nil
+}
+
+func NewRpcTestServer(serverAddr string) (*RpcServer, error) {
 	// lis, err := net.Listen("tcp", "127.0.0.1:0")
 	lis, err := net.Listen("tcp", serverAddr)
 	// check if error occured

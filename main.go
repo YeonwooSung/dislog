@@ -8,6 +8,8 @@ import (
 	"syscall"
 
 	"dislog/rpc"
+
+	"google.golang.org/grpc"
 )
 
 const (
@@ -46,8 +48,8 @@ func main() {
 }
 
 func initServer() (*rpc.RpcServer, error) {
-	// rs, err := rpc.NewRpcServer(grpc.ReadBufferSize(128 * 1024))
-	rs, err := rpc.NewRpcServer(listenAddr)
+	bufferSize := 128 * 1024
+	rs, err := rpc.NewRpcServer(listenAddr, bufferSize, grpc.ReadBufferSize(bufferSize))
 	if err != nil {
 		return nil, err
 	}
