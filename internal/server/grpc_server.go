@@ -28,18 +28,14 @@ func newgrpcServer(config *Config) (srv *grpcServer, err error) {
 
 // START: newapi
 func NewGRPCServer(config *Config) (*grpc.Server, error) {
+	// create a new gRPC server
 	gsrv := grpc.NewServer()
 	srv, err := newgrpcServer(config)
 	if err != nil {
 		return nil, err
 	}
-	// api.RegisterLogService(gsrv, &api.LogService{
-	// 	Produce:       srv.Produce,
-	// 	Consume:       srv.Consume,
-	// 	ConsumeStream: srv.ConsumeStream,
-	// 	ProduceStream: srv.ProduceStream,
-	// })
 
+	// register the log server with the gRPC server
 	api.RegisterLogServer(gsrv, api.LogServer(srv))
 	return gsrv, nil
 }
