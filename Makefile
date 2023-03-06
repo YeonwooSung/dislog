@@ -10,16 +10,16 @@ init:
 .PHONY: gencert-init
 gencert-init:
 	cfssl gencert \
-		-initca test/ca-csr.json | cfssljson -bare ca
+		-initca certs/ca-csr.json | cfssljson -bare ca
 
 .PHONY: gencert-server
 gencert-server:
 	cfssl gencert \
 		-ca=ca.pem \
 		-ca-key=ca-key.pem \
-		-config=test/ca-config.json \
+		-config=certs/ca-config.json \
 		-profile=server \
-		test/server-csr.json | cfssljson -bare server
+		certs/server-csr.json | cfssljson -bare server
 	
 	mv *.pem *.csr ${CONFIG_PATH}
 
@@ -28,29 +28,29 @@ gencert-client:
 	cfssl gencert \
 		-ca=ca.pem \
 		-ca-key=ca-key.pem \
-		-config=test/ca-config.json \
+		-config=certs/ca-config.json \
 		-profile=client \
-		test/client-csr.json | cfssljson -bare client
+		certs/client-csr.json | cfssljson -bare client
 	
 	mv *.pem *.csr ${CONFIG_PATH}
 
 .PHONY: gencert-multi-client
 gencert-multi-client:
-cfssl gencert \
+	cfssl gencert \
 		-ca=ca.pem \
 		-ca-key=ca-key.pem \
-		-config=test/ca-config.json \
+		-config=certs/ca-config.json \
 		-profile=client \
 		-cn="root" \
-		test/client-csr.json | cfssljson -bare root-client
+		certs/client-csr.json | cfssljson -bare root-client
 
 	cfssl gencert \
 		-ca=ca.pem \
 		-ca-key=ca-key.pem \
-		-config=test/ca-config.json \
+		-config=certs/ca-config.json \
 		-profile=client \
 		-cn="nobody" \
-		test/client-csr.json | cfssljson -bare nobody-client
+		certs/client-csr.json | cfssljson -bare nobody-client
 	
 	mv *.pem *.csr ${CONFIG_PATH}
 
