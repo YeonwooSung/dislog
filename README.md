@@ -13,4 +13,6 @@ Distributed log server
 
 For TLS support, you need to install the following dependencies:
 
-- cfssl
+- CloudFlare SSL
+  - cfssl
+  - cfssljson
