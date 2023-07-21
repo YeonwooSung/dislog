@@ -57,6 +57,9 @@ gencert-multi-client:
 # generate certificate
 .PHONY: gencert-all
 gencert-all:
+	cfssl print-defaults csr > certs/ca-csr.json
+	cfssl print-defaults config > certs/ca-config.json
+
 	make gencert-init
 	make gencert-server
 	make gencert-client

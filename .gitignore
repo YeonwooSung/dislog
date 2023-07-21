@@ -17,5 +17,12 @@
 # MacOS
 .DS_Store
 
+# keys and certs
+*.pem
+*.key
+**/ca-config.json
+ca.csr
+**/ca.csr
+
 # executable
 dislog
