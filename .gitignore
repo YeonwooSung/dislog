@@ -14,5 +14,15 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# MacOS
+.DS_Store
+
+# keys and certs
+*.pem
+*.key
+**/ca-config.json
+ca.csr
+**/ca.csr
+
 # executable
 dislog
