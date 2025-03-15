@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/hashicorp/raft v1.7.2
 	github.com/stretchr/testify v1.10.0
-	github.com/tysonmote/gommap v0.0.2
+	github.com/tysonmote/gommap v0.0.3
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240314234333-6e1732d8331c
 	google.golang.org/grpc v1.62.1
 	google.golang.org/protobuf v1.33.0
