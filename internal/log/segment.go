@@ -1,3 +1,4 @@
+// START: intro
 package log
 
 import (
@@ -16,43 +17,37 @@ type segment struct {
 	config                 Config
 }
 
+// END: intro
+
+// START: newsegment
 func newSegment(dir string, baseOffset uint64, c Config) (*segment, error) {
 	s := &segment{
 		baseOffset: baseOffset,
 		config:     c,
 	}
-
 	var err error
-	// open file with read/write/create/append mode
 	storeFile, err := os.OpenFile(
 		path.Join(dir, fmt.Sprintf("%d%s", baseOffset, ".store")),
 		os.O_RDWR|os.O_CREATE|os.O_APPEND,
 		0644,
 	)
-	// check if an error occurred while opening the file
 	if err != nil {
 		return nil, err
 	}
-	// create a new store for the segment
 	if s.store, err = newStore(storeFile); err != nil {
 		return nil, err
 	}
-
-	// open file with read/write/create mode
 	indexFile, err := os.OpenFile(
 		path.Join(dir, fmt.Sprintf("%d%s", baseOffset, ".index")),
 		os.O_RDWR|os.O_CREATE,
 		0644,
 	)
-	// check if an error occurred while opening the file
 	if err != nil {
 		return nil, err
 	}
-	// create a new index for the segment
 	if s.index, err = newIndex(indexFile, c); err != nil {
 		return nil, err
 	}
-	// read the last offset from the index
 	if off, _, err := s.index.Read(-1); err != nil {
 		s.nextOffset = baseOffset
 	} else {
@@ -61,6 +56,9 @@ func newSegment(dir string, baseOffset uint64, c Config) (*segment, error) {
 	return s, nil
 }
 
+// END: newsegment
+
+// START: append
 func (s *segment) Append(record *api.Record) (offset uint64, err error) {
 	cur := s.nextOffset
 	record.Offset = cur
@@ -83,6 +81,9 @@ func (s *segment) Append(record *api.Record) (offset uint64, err error) {
 	return cur, nil
 }
 
+// END: append
+
+// START: read
 func (s *segment) Read(off uint64) (*api.Record, error) {
 	_, pos, err := s.index.Read(int64(off - s.baseOffset))
 	if err != nil {
@@ -97,11 +98,17 @@ func (s *segment) Read(off uint64) (*api.Record, error) {
 	return record, err
 }
 
+// END: read
+
+// START: ismaxed
 func (s *segment) IsMaxed() bool {
 	return s.store.size >= s.config.Segment.MaxStoreBytes ||
 		s.index.size >= s.config.Segment.MaxIndexBytes
 }
 
+// END: ismaxed
+
+// START: close
 func (s *segment) Close() error {
 	if err := s.index.Close(); err != nil {
 		return err
@@ -112,6 +119,9 @@ func (s *segment) Close() error {
 	return nil
 }
 
+// END: close
+
+// START: remove
 func (s *segment) Remove() error {
 	if err := s.Close(); err != nil {
 		return err
@@ -125,9 +135,15 @@ func (s *segment) Remove() error {
 	return nil
 }
 
-func NearestMultiple(j, k uint64) uint64 {
-	// if j >= 0 {
-	// 	return (j / k) * k
-	// }
+// END: remove
+
+// START: nearestmultiple
+func nearestMultiple(j, k uint64) uint64 {
+	if j >= 0 {
+		return (j / k) * k
+	}
 	return ((j - k + 1) / k) * k
+
 }
+
+// END: nearestmultiple

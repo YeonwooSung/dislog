@@ -67,6 +67,7 @@ gencert-all:
 #----------------------------------------
 
 # START: compile
+.PHONY: compile
 compile:
 	protoc api/v1/*.proto \
 		--go_out=. \

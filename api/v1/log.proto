@@ -2,36 +2,52 @@ syntax = "proto3";
 
 package log.v1;
 
-option go_package = "github.com/YeonwooSung/api/log_v1";
+option go_package = "github.com/travisjeffery/api/log_v1";
 
-// START: service
+// START: log
 service Log {
-    rpc Produce(ProduceRequest) returns (ProduceResponse) {}
-    rpc Consume(ConsumeRequest) returns (ConsumeResponse) {}
-    rpc ConsumeStream(ConsumeRequest) returns (stream ConsumeResponse) {}
-    rpc ProduceStream(stream ProduceRequest) returns (stream ProduceResponse) {}
+  rpc Produce(ProduceRequest) returns (ProduceResponse) {}
+  rpc Consume(ConsumeRequest) returns (ConsumeResponse) {}
+  rpc ConsumeStream(ConsumeRequest) returns (stream ConsumeResponse) {}
+  rpc ProduceStream(stream ProduceRequest) returns (stream ProduceResponse)
+    {}
+  rpc GetServers(GetServersRequest) returns (GetServersResponse) {}
 }
-// END: service
+// END: log
 
-// START: apis
 message ProduceRequest  {
-    Record record = 1;
+  Record record = 1;
 }
 
 message ProduceResponse  {
-    uint64 offset = 1;
+  uint64 offset = 1;
 }
 
 message ConsumeRequest {
-    uint64 offset = 1;
+  uint64 offset = 1;
 }
 
 message ConsumeResponse {
-    Record record = 2;
+  Record record = 2;
 }
-// END: apis
 
 message Record {
-    bytes value = 1;
-    uint64 offset = 2;
+  bytes value = 1;
+  uint64 offset = 2;
+  uint64 term = 3;
+  uint32 type = 4;
 }
+
+// START: get_servers
+message GetServersRequest {}
+
+message GetServersResponse {
+  repeated Server servers = 1;
+}
+
+message Server {
+  string id = 1;
+  string rpc_addr = 2;
+  bool is_leader = 3;
+}
+// END: get_servers

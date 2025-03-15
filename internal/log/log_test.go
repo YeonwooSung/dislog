@@ -1,3 +1,4 @@
+// START: intro
 package log
 
 import (
@@ -35,6 +36,9 @@ func TestLog(t *testing.T) {
 	}
 }
 
+// END: intro
+
+// START: tests
 func testAppendRead(t *testing.T, log *Log) {
 	append := &api.Record{
 		Value: []byte("hello world"),
@@ -46,13 +50,18 @@ func testAppendRead(t *testing.T, log *Log) {
 	read, err := log.Read(off)
 	require.NoError(t, err)
 	require.Equal(t, append.Value, read.Value)
+
 }
 
+// START: test
 func testOutOfRangeErr(t *testing.T, log *Log) {
 	read, err := log.Read(1)
 	require.Nil(t, read)
-	require.Error(t, err)
+	apiErr := err.(api.ErrOffsetOutOfRange)
+	require.Equal(t, uint64(1), apiErr.Offset)
 }
+
+// END: test
 
 func testInitExisting(t *testing.T, o *Log) {
 	append := &api.Record{
@@ -115,3 +124,5 @@ func testTruncate(t *testing.T, log *Log) {
 	_, err = log.Read(0)
 	require.Error(t, err)
 }
+
+// END: tests
