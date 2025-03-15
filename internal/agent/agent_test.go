@@ -49,6 +49,10 @@ func TestAgent(t *testing.T) {
 		dataDir, err := ioutil.TempDir("", "agent-test-log")
 		require.NoError(t, err)
 
+		defer func(dir string) {
+			_ = os.RemoveAll(dir)
+		}(dataDir)
+
 		var startJoinAddrs []string
 		if i != 0 {
 			startJoinAddrs = append(startJoinAddrs, agents[0].Config.BindAddr)
@@ -73,10 +77,6 @@ func TestAgent(t *testing.T) {
 	defer func() {
 		for _, agent := range agents {
 			_ = agent.Shutdown()
-			require.NoError(
-				t,
-				os.RemoveAll(agent.Config.DataDir),
-			)
 		}
 	}()
 
@@ -130,9 +130,9 @@ func client(
 	opts := []grpc.DialOption{
 		grpc.WithTransportCredentials(tlsCreds),
 	}
+	// START_HIGHLIGHT
 	rpcAddr, err := agent.Config.RPCAddr()
 	require.NoError(t, err)
-	// START_HIGHLIGHT
 	conn, err := grpc.Dial(fmt.Sprintf(
 		"%s:///%s",
 		loadbalance.Name,
