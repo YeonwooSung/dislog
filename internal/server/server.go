@@ -50,6 +50,7 @@ const (
 
 type grpcServer struct {
 	*Config
+	api.UnimplementedLogServer
 }
 
 func newgrpcServer(config *Config) (*grpcServer, error) {
@@ -107,13 +108,7 @@ func NewGRPCServer(config *Config, grpcOpts ...grpc.ServerOption) (
 	if err != nil {
 		return nil, err
 	}
-	api.RegisterLogService(gsrv, &api.LogService{
-		Produce:       srv.Produce,
-		Consume:       srv.Consume,
-		ConsumeStream: srv.ConsumeStream,
-		ProduceStream: srv.ProduceStream,
-		GetServers:    srv.GetServers,
-	})
+	api.RegisterLogServer(gsrv, srv)
 	return gsrv, nil
 }
 
