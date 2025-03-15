@@ -94,4 +94,6 @@ func (s *subConn) GetOrBuildProducer(balancer.ProducerBuilder) (balancer.Produce
 	return nil, func() {}
 }
 
+func (s *subConn) Shutdown() {}
+
 // END: end
