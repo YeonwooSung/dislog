@@ -1,6 +1,7 @@
 module github.com/YeonwooSung/dislog
 
 go 1.18
+toolchain go1.24.1
 
 require (
 	github.com/hashicorp/raft v1.7.2
@@ -8,7 +9,7 @@ require (
 	github.com/tysonmote/gommap v0.0.3
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240314234333-6e1732d8331c
 	google.golang.org/grpc v1.62.1
-	google.golang.org/protobuf v1.33.0
+	google.golang.org/protobuf v1.36.5
 )
 
 require (
