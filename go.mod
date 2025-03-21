@@ -56,7 +56,7 @@ require (
 require (
 	github.com/casbin/casbin v1.9.1
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/golang/protobuf v1.5.3
+	github.com/golang/protobuf v1.5.4
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/hashicorp/raft-boltdb v0.0.0-20250225060035-8f7048cdfa53
 	github.com/hashicorp/serf v0.10.2
