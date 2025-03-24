@@ -1,9 +1,10 @@
 module github.com/YeonwooSung/dislog
 
 go 1.18
+toolchain go1.24.1
 
 require (
-	github.com/hashicorp/raft v1.7.2
+	github.com/hashicorp/raft v1.7.3
 	github.com/stretchr/testify v1.10.0
 	github.com/tysonmote/gommap v0.0.3
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240314234333-6e1732d8331c
