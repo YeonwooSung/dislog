@@ -1,14 +1,14 @@
 module github.com/YeonwooSung/dislog
 
-go 1.18
+go 1.23.0
 
 require (
 	github.com/hashicorp/raft v1.7.2
 	github.com/stretchr/testify v1.10.0
 	github.com/tysonmote/gommap v0.0.3
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240314234333-6e1732d8331c
-	google.golang.org/grpc v1.62.1
-	google.golang.org/protobuf v1.33.0
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250218202821-56aae31c358a
+	google.golang.org/grpc v1.72.1
+	google.golang.org/protobuf v1.36.5
 )
 
 require (
@@ -56,7 +56,7 @@ require (
 require (
 	github.com/casbin/casbin v1.9.1
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/golang/protobuf v1.5.3
+	github.com/golang/protobuf v1.5.4
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/hashicorp/raft-boltdb v0.0.0-20250225060035-8f7048cdfa53
 	github.com/hashicorp/serf v0.10.2
